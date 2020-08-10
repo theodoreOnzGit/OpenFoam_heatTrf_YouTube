@@ -1,0 +1,100 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     chtMultiRegionFoam;
+
+startFrom       latestTime;
+
+startTime       0.001;
+
+stopAt          endTime;
+
+endTime         300;
+
+deltaT          0.001;
+
+writeControl    adjustableRunTime;
+
+writeInterval   5;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+maxCo           1.5;
+
+maxDi           10.0;
+
+adjustTimeStep  yes;
+
+functions
+{
+    wallHeatFlux1
+	{
+	type 		wallHeatFlux;
+	libs		("libfieldFunctionObjects.so");
+	executeControl	writeTime;
+	writeControl	writeTime;
+	region		oil;
+		
+	}
+    heatTrfCoeff1
+	{
+	type		heatTransferCoeff;
+	libs            ("libfieldFunctionObjects.so");
+
+        executeControl  writeTime;
+        writeControl    writeTime;
+	// htcModel	localReferenceTemperature;
+	htcModel	fixedReferenceTemperature;
+	patches		("oil_to_sphere");
+	TRef		300;
+	field		T;
+	region		oil;	
+	}
+
+     areaAverage1
+	{
+        type            surfaceFieldValue;
+        libs            ("libfieldFunctionObjects.so");
+        executeControl  writeTime;
+        writeControl    writeTime;
+	fields
+	(
+	T
+	heatTransferCoeff(T)		
+	);
+	writeFields	yes;
+	regionType	patch;
+	name		oil_to_sphere;
+	region		oil;
+	operation	areaAverage;
+	surfaceFormat	none;	
+	}
+}
+
+// ************************************************************************* //

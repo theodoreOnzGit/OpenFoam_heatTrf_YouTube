@@ -1,0 +1,18 @@
+
+
+
+
+observation:
+
+- the heat flux increaases upon mesh refinement
+- but there is no thermal convection plume observed (no convection observed)
+- velocity profile around sphere shows non-zero velocity, convection occurs. But it is about 10x slower
+
+
+possible source of errors:
+- mesh is not fine enough
+	- changing the mesh to 10 layers of addition, we get a plume (solved)
+- courant number too small -> timestep too small
+	- is not the case, Di set at 10, not 0.99
+- fvSchemes in the solid directory was changed
+	- changing fvSchemes doesn't change much of the solution

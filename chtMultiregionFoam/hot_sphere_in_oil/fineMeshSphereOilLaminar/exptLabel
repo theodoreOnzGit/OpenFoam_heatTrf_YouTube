@@ -1,0 +1,36 @@
+in troublehsooting process,
+
+changing fvSchemes to all upwind schemes doesn't seem to improve stability.
+
+i'm going to try some snappyHexMesh Options. eg. adding layers...
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+i found that fvSchemes is an important factor in getting steady convergence.
+
+Usually for bad meshes like this one, it is important to get steady convergence...
+
+and linear interpolation schemes are usually the culprit for that since they can easily go unbounded.
+
+so this expt is to see how the changing of certain schemes affect the solving of this case
+
+
+
+
+
+expt_case readme%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+this tests the effect of mesh refinement only to higher levels
+
+high mesh refinement introduces system instabilities...
+
+reducing relaxation factors, tolerances and even timestep doesn't help...
+
+
+next i was looking into the fvSchemes file and studying the interpolation schemes
+
+i found out that for non-orthogonal meshes, correction is required, and sometimes this can cause divergence in solution
+
+this looks good to learn!
+http://www.wolfdynamics.com/wiki/fvm_crash_intro.pdf

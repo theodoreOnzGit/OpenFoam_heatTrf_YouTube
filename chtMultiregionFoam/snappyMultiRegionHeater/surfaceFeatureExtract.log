@@ -1,0 +1,85 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : v1906 OPENFOAM=1906
+Arch   : "LSB;label=32;scalar=64"
+Exec   : surfaceFeatureExtract
+Date   : Oct 29 2019
+Time   : 12:41:41
+Host   : DESKTOP-9S60IA4
+PID    : 2865
+I/O    : uncollated
+Case   : /home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+
+Note: Feature line extraction only valid on closed manifold surfaces
+
+Reading surfaceFeatureExtractDict
+
+Surfaces     : geom.stl
+Output       : geom
+Load options : offset
+Write options: writeObj=yes writeVTK=off
+
+Statistics:
+Triangles    : 1344 in 8 region(s)
+Vertices     : 739
+Bounding Box : (-0.1 -0.04 -0.05) (0.1 0.008 0.05)
+
+Constructing feature set from included angle 150
+Selecting edges based purely on geometric tests: no
+
+Initial Feature set:
+    points : 24
+    edges  : 244
+    of which
+        region edges   : 216
+        external edges : 8
+        internal edges : 20
+
+Final Feature set:
+    points : 230
+    of which
+        convex             : 0
+        concave            : 0
+        mixed              : 24
+        non-feature        : 206
+    edges  : 244
+    of which
+        external edges     : 8
+        internal edges     : 20
+        flat edges         : 0
+        open edges         : 176
+        multiply connected : 40
+
+Writing extendedFeatureEdgeMesh to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom.extendedFeatureEdgeMesh"
+
+Writing extendedEdgeMesh components to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom"
+Writing 0 convex feature points to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_convexFeaturePts.obj"
+Writing 0 concave feature points to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_concaveFeaturePts.obj"
+Writing 24 mixed feature points to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_mixedFeaturePts.obj"
+Writing 24 mixed feature point structure to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_mixedFeaturePtsStructure.obj"
+Writing 8 external edges to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_externalEdges.obj"
+Writing 20 internal edges to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_internalEdges.obj"
+Writing 0 flat edges to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_flatEdges.obj"
+Writing 176 open edges to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_openEdges.obj"
+Writing 40 multiple edges to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_multipleEdges.obj"
+Writing 216 region edges to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_regionEdges.obj"
+Writing 244 edge directions to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/extendedFeatureEdgeMesh/geom_edgeDirections.obj"
+
+Writing featureEdgeMesh to "/home/theodore_ong/GitHub_software/OpenFoam_heatTrf_YouTube/chtMultiregionFoam/snappyMultiRegionHeater/constant/triSurface/geom.eMesh"
+ExecutionTime = 0.03 s  ClockTime = 0 s
+
+End
+

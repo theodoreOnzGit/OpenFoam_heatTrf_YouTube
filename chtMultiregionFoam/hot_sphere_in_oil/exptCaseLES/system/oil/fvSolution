@@ -1,0 +1,109 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system/oil";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(rho|rhoFinal)"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-5;
+        relTol          0;
+    }
+
+    p_rgh
+    {
+        solver           GAMG;
+        tolerance        1e-5;
+        relTol           0;
+
+        smoother         GaussSeidel;
+
+    }
+
+    p_rghFinal
+    {
+        $p_rgh;
+        tolerance        1e-5;
+        relTol           0;
+    }
+
+    "(U|h|k|epsilon|R)"
+    {
+        solver           PBiCGStab;
+        preconditioner   DILU;
+        tolerance        1e-5;
+        relTol           0;
+    }
+
+    "(U|h|k|epsilon|R)Final"
+    {
+        $U;
+        tolerance        1e-05;
+        relTol           0;
+    }
+}
+
+PIMPLE
+{
+    momentumPredictor   yes;
+    nCorrectors         1;
+    nNonOrthogonalCorrectors 1;
+    pRefCell    0;
+    pRefValue   1e5;
+    nOuterCorrector 1000;
+
+    residualControl
+    {
+        U
+        {
+                tolerance  1e-9;
+                relTol      0;
+        }
+        p
+        {
+                tolerance  1e-9;
+                relTol      0;
+        }
+
+ 	h
+	{
+		tolerance 1e-9;
+		relTol	  0;
+	}
+    }
+
+
+
+
+}
+
+relaxationFactors
+{
+   
+    fields
+    {
+        p      0.4;
+        pFinal   0.4;
+    }
+    equations
+    {
+        "h.*"           0.4;
+        "U.*"           0.4;
+    }
+}
+// ************************************************************************* //
