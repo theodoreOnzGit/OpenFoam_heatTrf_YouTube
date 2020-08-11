@@ -14,7 +14,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-simulationType  LES;
+simulationType  RAS;
 
 LES
 {
@@ -37,16 +37,16 @@ LES
     Prt		0.9;
 
 
-    LESModel	Smagorinsky;
+    //LESModel	Smagorinsky;
 
-    delta	cubeRootVol;
+    //delta	cubeRootVol;
 }
 
 
 RAS
 {
     RASModel            kOmegaSST;
-    RASModel		kEpsilon;
+    //RASModel		kEpsilon;
     turbulence          on;
 
     printCoeffs         on;

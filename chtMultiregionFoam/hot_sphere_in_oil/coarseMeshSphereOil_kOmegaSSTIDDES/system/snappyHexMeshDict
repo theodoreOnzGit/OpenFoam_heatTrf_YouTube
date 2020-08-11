@@ -130,11 +130,11 @@ castellatedMeshControls
 
     refinementRegions
     {
-        refinementCylinder
+        /*refinementCylinder
         {
             mode inside;
             levels ((1E15 2));
-        }
+        }*/
     }
 
 

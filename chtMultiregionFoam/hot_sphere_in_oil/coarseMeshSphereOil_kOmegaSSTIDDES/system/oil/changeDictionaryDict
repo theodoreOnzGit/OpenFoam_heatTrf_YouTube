@@ -101,6 +101,11 @@ epsilon
             type            epsilonWallFunction;
             value           uniform 0.01;
         }
+	".*"
+	{
+		type 		calculated;
+		value		$internalField;
+	}
         "procBoundary.*"
         {
             type            processor;
