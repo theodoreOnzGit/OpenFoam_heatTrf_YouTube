@@ -1,0 +1,15 @@
+#!/bin/bash
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+
+cp -ar 0.orig original
+rm -r 0.* 1.* 2.* 3.* 4.* 5.* 6.* 7.* 8.* 9.*
+mv original 0.orig
+
+
+rm -r log.chtMultiRegionFoam
+runApplication $(getApplication)
+
+echo "simulation finished!"
+
+#------------------------------------------------------------------------------
