@@ -1,0 +1,131 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    {
+        name    shellSet;
+        type    cellSet;
+        action  new;
+        source  surfaceToCell;
+        sourceInfo
+        {
+            file            "constant/triSurface/shell.stl";
+            outsidePoints   ((7 4.55678e-16 0));
+            includeCut      true;
+            includeInside   true;
+            includeOutside  false;
+            nearDistance    0;
+            curvature       -100;
+        }
+    }
+
+    {
+        name    shell;
+        type    cellZoneSet;
+        action  new;
+        source  setToCellZone;
+        set     shellSet;
+    }
+
+
+/*
+    {
+        name    bgr0;       // tube side
+        type    cellSet;
+        action  new;
+        source  regionToCell;
+        insidePoints    ((7 4.55678e-16 0));
+    }
+     {
+        name    hullBox0;       // all around hull
+        type    cellSet;
+        action  new;
+        source  zoneToCell;
+        zone    hullBox;
+    }
+    {
+        name    propeller0;       // all around propeller
+        type    cellSet;
+        action  new;
+        source  zoneToCell;
+        zone    propeller;
+    }
+    {
+        name    rudder0;       // all around rudder
+        type    cellSet;
+        action  new;
+        source  zoneToCell;
+        zone    rudder;
+    }
+
+    {
+        name    box;   //all cells
+        type    cellSet;
+        action  new;
+        source  cellToCell;
+        set     rudder0;
+    }
+
+
+    {
+        name    box;   // hole in mesh
+        type    cellSet;
+        action  subset;
+        source  boxToCell;
+        boxes
+        (
+            (-0.09 -0.12 -0.00499)(-0.059 -0.03 0.00499) //rudder
+        );
+    }
+
+    {
+        name    box;
+        type    cellSet;
+        action  invert;
+    }
+    {
+        name    keepBox;   //all cells
+        type    cellSet;
+        action  new;
+        source  cellToCell;
+        set     box;
+    }
+    {
+        name    keepBox;   //all cells
+        type    cellSet;
+        action  add;
+        source  cellToCell;
+        set     propeller0;
+    }
+    {
+        name    keepBox;   //all cells
+        type    cellSet;
+        action  add;
+        source  cellToCell;
+        set     hullBox0;
+    }
+    {
+        name    keepBox;   //all cells
+        type    cellSet;
+        action  add;
+        source  cellToCell;
+        set     bgr0;
+    }
+*/
+);
+
+// ************************************************************************* //

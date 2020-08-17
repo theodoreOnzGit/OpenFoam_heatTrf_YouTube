@@ -1,0 +1,313 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+boundary
+{
+
+
+}
+
+U
+{
+    internalField   uniform (0 0 0);
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            noSlip;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+	tubeEnd1
+	{
+	    type            zeroGradient;
+	}
+	tubeEnd2 // tubeEnd2 is inlet for counterflow heat exchanger 
+	{
+	    type            flowRateInletVelocity;
+	    volumetricFlowRate constant 2.2e-4;
+	    extrapolateProfile false;
+	    value           $internalField;
+	}
+
+    }
+}
+
+T
+{
+    internalField   uniform 300;
+
+    boundaryField
+    {
+        ".*"
+	{
+            type            compressible::turbulentTemperatureCoupledBaffleMixed;
+            Tnbr            T;
+            kappaMethod     fluidThermo;
+            value           uniform 300;
+
+	}
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+        tubeEnd1
+        {
+            type            zeroGradient;
+        }
+        tubeEnd2 // tubeEnd2 is inlet for counterflow heat exchanger 
+        {   
+            type            fixedValue;
+	    value	    uniform 500;
+        }
+
+    }
+}
+
+epsilon
+{
+    // Set the value on all bc to non-zero. Not used in simulation
+    // since zeroGradient; only used in initialisation.
+    internalField   uniform 0.01;
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            epsilonWallFunction;
+            value           uniform 0.01;
+        }
+	"(tubeEnd1|tubeEnd2)"
+	{
+	    type         	calculated;
+	    value		$internalField;
+	}
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+k
+{
+    internalField   uniform 0.1;
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            kqRWallFunction;
+            value           uniform 0.1;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+        tubeEnd1
+        {
+            type            inletOutlet;
+	    inletValue	    $internalField;
+	    value	    $internalField;
+        }
+        tubeEnd2 // tubeEnd2 is inlet for counterflow heat exchanger 
+        {
+            type            turbulentIntensityKineticEnergyInlet;
+            intensity       0.05;
+            value           $internalField;
+            // turbulent intensity can be estimated:
+            // https://www.simscale.com/docs/simulation-setup/global-settings/k-epsilon/
+            // Intensity = 0.16 * Re ^(-1/8)
+            // Re = Reynold's number based on hydraulic mean diameter 
+
+        }
+
+    }
+}
+
+p_rgh
+{
+    internalField   uniform 1e5;
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            fixedFluxPressure;
+            value           uniform 1e5;
+        }
+        tubeEnd1
+        {
+            type            fixedValue;
+	    value	    uniform 1e5;
+        }
+        tubeEnd2 // tubeEnd2 is inlet for counterflow heat exchanger 
+        {
+            type            fixedFluxPressure;
+            value           uniform 1e5;
+        }
+
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+p
+{
+    internalField   uniform 1e5;
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            calculated;
+            value           uniform 1e5;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+    }
+}
+
+rho
+{
+
+    internalField    	uniform 8000;
+
+    boundaryField
+    {
+    	".*"
+    	{
+            type            calculated;
+            value           uniform 8000;
+    	}
+	"procBoundary.*"
+        {
+            type            processor;
+        }
+
+    }
+}
+
+
+omega
+{
+
+    internalField       uniform 0.2;
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            omegaWallFunction;
+            value           uniform 0.2;
+        }
+        tubeEnd1
+        {
+            type            inletOutlet;
+            inletValue      $internalField;
+            value           $internalField;
+        }
+        tubeEnd2 // tubeEnd2 is inlet for counterflow heat exchanger 
+        {
+            type            turbulentMixingLengthFrequencyInlet;
+            mixingLength    0.007;
+            // mixing length estimate here: https://www.simscale.com/docs/simulation-setup/global-settings/k-epsilon/
+            // mixing length = hydraulic diamater * 0.07
+            value           $internalField;
+
+        }
+
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+
+    }
+}
+
+
+alphat
+{
+
+    internalField       uniform 0;
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            compressible::alphatWallFunction;
+            Prt		    0.85;
+	    value           uniform 0;
+        }
+	"procBoundary.*"
+        {
+            type            processor;
+        }
+        tubeEnd1
+        {
+            type            calculated;
+            value           $internalField;
+        }
+        tubeEnd2 // tubeEnd2 is inlet for counterflow heat exchanger 
+        {
+            type            calculated;
+            value           $internalField;
+        }
+
+
+    }
+}
+
+
+nut
+{
+
+    internalField       uniform 0;
+
+    boundaryField
+    {
+        ".*"
+        {
+            type            nutUWallFunction;
+            value           uniform 0;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+        tubeEnd1
+        {
+            type            calculated;
+            value           $internalField;
+        }
+        tubeEnd2 // tubeEnd2 is inlet for counterflow heat exchanger 
+        {
+            type            calculated;
+            value           $internalField;
+        }
+
+    }
+}
+
+
+// ************************************************************************* //

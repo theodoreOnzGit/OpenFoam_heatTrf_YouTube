@@ -1,0 +1,14 @@
+#!/bin/bash
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+
+./Allrun-serial-pre
+
+# Run on single processor
+runApplication $(getApplication)
+
+echo
+echo "Use paraFoam -touch-all to create files for paraview post-processing"
+echo
+
+#------------------------------------------------------------------------------

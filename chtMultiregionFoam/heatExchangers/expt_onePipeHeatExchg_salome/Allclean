@@ -11,4 +11,6 @@ rm -rf VTK
 rm -rf constant/cellToRegion
 rm -rf constant/*/polyMesh  # region meshes
 rm -rf *.obj
+rm -rf system/domain*
+rm -rf constant/domain*
 #------------------------------------------------------------------------------
