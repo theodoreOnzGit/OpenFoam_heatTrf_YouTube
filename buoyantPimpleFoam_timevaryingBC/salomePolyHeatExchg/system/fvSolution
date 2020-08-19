@@ -1,0 +1,95 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "rho.*"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       0;
+        relTol          0;
+    }
+
+    p_rgh
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-8;
+        relTol          0.01;
+    }
+
+    p_rghFinal
+    {
+        $p_rgh;
+        relTol          0;
+    }
+
+    "(U|h|e|k|epsilon|R|omega|nuTilda)"
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-6;
+        relTol          0.1;
+    }
+
+    "(U|h|e|k|epsilon|R|omega|nuTilda)Final"
+    {
+        $U;
+        relTol          0;
+    }
+}
+
+PIMPLE
+{
+    nNonOrthogonalCorrectors 1;
+    nCorrectors          3;
+    nOuterCorrectors    1000;
+
+    residualControl
+    {
+        U
+        {
+                tolerance  5e-2;
+                relTol      0;
+        }
+        p
+        {
+                tolerance  5e-2;
+                relTol      0;
+        }
+     }
+
+}
+
+relaxationFactors
+{
+    fields
+    {
+        p      0.9;
+        pFinal   1;
+    }
+    equations
+    {
+        "(U|h|e|k|epsilon|omega|R|nuTilda)"    0.2;
+        "(U|h|e|k|epsilon|omega|R|nuTilda)Final"   1;
+    }
+}
+
+
+
+// ************************************************************************* //

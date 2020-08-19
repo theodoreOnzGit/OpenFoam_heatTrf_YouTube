@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      k;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform 0.2;
+
+
+boundaryField
+{
+    outlet
+    {
+            type            inletOutlet;
+            inletValue      $internalField;
+            value           $internalField;
+    }
+    "(coldSideTubing|insulatedTubing|hotSideTubing)"
+    {
+            type            omegaWallFunction;
+            value           uniform 0.2;
+    }
+    inlet
+    {
+            type            turbulentMixingLengthFrequencyInlet;
+            mixingLength    0.007;
+            // mixing length estimate here: https://www.simscale.com/docs/simulation-setup/global-settings/k-epsilon/
+            // mixing length = hydraulic diamater * 0.07
+            value           $internalField;
+    }
+}
+
+
+// ************************************************************************* //
