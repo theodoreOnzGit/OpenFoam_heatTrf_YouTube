@@ -16,7 +16,36 @@ FoamFile
 
 PIMPLE
 {
-    nOuterCorrectors 1;
+    momentumPredictor   yes;
+    nCorrectors         3;
+    nNonOrthogonalCorrectors 1;
+    pRefCell    0;
+    pRefValue   1e5;
+    nOuterCorrector 1000;
+
+    residualControl
+    {
+        U
+        {
+                tolerance  1e-9;
+                relTol      0;
+        }
+        p
+        {
+                tolerance  1e-9;
+                relTol      0;
+        }
+
+        h
+        {
+                tolerance 1e-9;
+                relTol    0;
+        }
+    }
+
+
+
+
 }
 
 // ************************************************************************* //

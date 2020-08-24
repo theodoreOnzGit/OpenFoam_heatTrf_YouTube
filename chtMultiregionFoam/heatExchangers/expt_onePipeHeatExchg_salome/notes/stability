@@ -1,0 +1,56 @@
+so this case is unstable. Here's the list of things i tried...
+
+
+changing delta T to become 1e-3 to make it smaller so initial courant number is not 300-1000
+
+changing maxCo to 15 (don't work)
+
+changing to fineMesh (don't work)
+
+tried to run potentialfoam (but how does this work in multiRegion?
+
+change shell temperature to 293 initial
+
+didn't work
+
+
+change fvSolution in main fvSolution file system/fvSolution
+cos for some reason, i don't get multiple outerCorrectors when solving between regions.
+
+initial velocity field for shell side not done, maybe potentialFoam
+
+potentialFoam -region shell
+
+this command works!
+
+potentialFoam -region shell -initialiseUBCs
+
+now this automatically initialises my velocity BCs for me,
+
+i'll of course need to add in relevant entries into the fvSchemes and fvSolution
+
+potentialFoam doesn't work if i just do this for shell,
+
+one more potential issue is that i didn't write the pressure fields...
+
+now i tried making it solve for p_rgh, but it doesn't work as well because the pressure BCs are not set right 
+(calculated)
+
+so when i look at initialised BCs, even that don't work too well, 
+
+next i'll change rho to an initial vlaue of 1000
+
+(doesn't work, almost has no impact)
+
+
+next suspect, omega tends to give funny resultss.... changing the outlets to zerogradient BCs.
+
+also suspect initial temperatures are too off (ie boundary conditions not correctly done, one boundary is 300K and the boundary next to it is 293K, does that cause problem?)
+so i changed all to 293K 
+
+changing omega doesn't work
+
+frankly i don't know what's going on now... So i may try buoyantPimpleFoam first to do for single region
+
+
+let me do buoyantPimpleFoam for salome first

@@ -123,7 +123,7 @@ T
 	inletShell
 	{
 		type            fixedValue;
-		value		uniform 293;
+		value		$internalField;
 	}
 	outletShell
 	{

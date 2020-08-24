@@ -191,14 +191,14 @@ p
 rho
 {
 
-    internalField    	uniform 8000;
+    internalField    	uniform 1000;
 
     boundaryField
     {
     	".*"
     	{
             type            calculated;
-            value           uniform 8000;
+            value           uniform 1000;
     	}
 	"procBoundary.*"
         {

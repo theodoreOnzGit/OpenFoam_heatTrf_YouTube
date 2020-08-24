@@ -70,7 +70,7 @@ U
 
 T
 {
-    internalField   uniform 300;
+    internalField   uniform 293;
 
     boundaryField
     {
@@ -85,6 +85,7 @@ T
 		// for the values of thermal insulation conductivity
 		kappaMethod	fluidThermo;
 		h		20;
+		value		$internalField;
 		
     	}
     	shellEnd1
@@ -98,6 +99,7 @@ T
 		// for the values of thermal insulation conductivity
 		kappaMethod	fluidThermo;
 		h		20;
+		value		$internalField;
 
 	}
         shellEnd2
@@ -111,14 +113,17 @@ T
 		// for the values of thermal insulation conductivity
 		kappaMethod	fluidThermo;
 		h		20;
+		value		$internalField;
         }
 	inletShellCurved
 	{
 		type            zeroGradient;
+		value		$internalField;
 	}
 	outletShellCurved
 	{
 		type            zeroGradient;
+		value		$internalField;
 	}
 	inletShell
 	{
@@ -128,6 +133,7 @@ T
 	outletShell
 	{
 		type            zeroGradient;
+		value		$internalField;
 	}
 
         "procBoundary.*"
@@ -140,7 +146,7 @@ T
             type            compressible::turbulentTemperatureCoupledBaffleMixed;
             Tnbr            T;
             kappaMethod     fluidThermo;
-            value           uniform 300;
+            value           uniform 293;
         }
     }
 }
@@ -255,14 +261,14 @@ p
 rho
 {
 
-    internalField    	uniform 8000;
+    internalField    	uniform 1000;
 
     boundaryField
     {
     	".*"
     	{
             type            calculated;
-            value           uniform 8000;
+            value           uniform 1000;
     	}
 	"procBoundary.*"
         {
@@ -299,8 +305,9 @@ omega
         }
         outletShell
         {
-            type            inletOutlet;
-            inletValue      $internalField;
+            //type            inletOutlet;
+            //inletValue      $internalField;
+	    type		zeroGradient;
             value           $internalField;
         }
 
