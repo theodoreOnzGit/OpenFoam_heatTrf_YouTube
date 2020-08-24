@@ -39,6 +39,14 @@ solvers
         relTol          0;
     }
 
+
+
+
+    Phi
+    {
+	    $p_rgh;
+    }
+
     "(U|h|e|k|epsilon|R|omega|nuTilda)"
     {
         solver          PBiCGStab;
@@ -57,8 +65,8 @@ solvers
 PIMPLE
 {
     nNonOrthogonalCorrectors 1;
-    nCorrectors          3;
-    nOuterCorrectors    1000;
+    nCorrectors          1;
+    nOuterCorrectors    4;
 
     residualControl
     {
@@ -80,12 +88,12 @@ relaxationFactors
 {
     fields
     {
-        p      0.9;
-        pFinal   1;
+        p_rgh      0.7;
+        p_rghFinal   1;
     }
     equations
     {
-        "(U|h|e|k|epsilon|omega|R|nuTilda)"    0.2;
+        "(U|h|e|k|epsilon|omega|R|nuTilda)"    0.7;
         "(U|h|e|k|epsilon|omega|R|nuTilda)Final"   1;
     }
 }
