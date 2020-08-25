@@ -38,6 +38,7 @@ mixture
     {
         rhoCoeffs<8>    ( 1.3632784512E+03 -1.3938506273E+00 1.7344173768E-03 -1.7393088213E-06 0 0 0 0 );
     // valid from 15C to 405C
+        rhoCoeffs<8>    ( 930 0 0 0 0 0 0 0 );
     }
     thermodynamics
     {
