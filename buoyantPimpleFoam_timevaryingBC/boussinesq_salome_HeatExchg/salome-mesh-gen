@@ -1,0 +1,17 @@
+./Allclean
+
+#!/bin/bash
+cd ${0%/*} || exit 1                        # Run from this directory
+. $WM_PROJECT_DIR/bin/tools/RunFunctions    # Tutorial run functions
+
+
+
+restore0Dir
+ideasUnvToFoam mesh_BL_tet.unv
+transformPoints -scale '(0.001 0.001 0.001)'
+changeDictionary
+polyDualMesh 75 -overwrite
+
+touch heatExchg.foam
+
+#------------------------------------------------------------------------------

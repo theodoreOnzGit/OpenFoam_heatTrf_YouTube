@@ -1,0 +1,48 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      k;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 3.75e-5;
+
+boundaryField
+{
+    outlet
+    {
+            type            inletOutlet;
+            inletValue      $internalField;
+            value           $internalField;
+    }
+    "(coldSideTubing|insulatedTubing|hotSideTubing)"
+    {
+            type            kqRWallFunction;
+            value           uniform 0.1;
+    }
+    inlet
+    {
+        type            turbulentIntensityKineticEnergyInlet;
+        intensity       0.047;
+        value           $internalField;
+        // turbulent intensity can be estimated:
+        // https://www.simscale.com/docs/simulation-setup/global-settings/k-epsilon/
+        // Intensity = 0.16 * Re ^(-1/8)
+        // Re = Reynold's number based on hydraulic mean diameter 
+    }
+}
+
+
+// ************************************************************************* //

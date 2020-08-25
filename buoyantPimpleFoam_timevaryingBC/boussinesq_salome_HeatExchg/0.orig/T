@@ -1,0 +1,99 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;
+
+boundaryField
+{
+    outlet
+    {
+            type            inletOutlet;
+            inletValue      $internalField;
+            value           $internalField;
+    }
+    coldSideTubing
+    {
+
+	type            externalWallHeatFluxTemperature;
+	mode            coefficient;    // other modes are 'power' and 'flux'
+	Ta              uniform 293;            // ambient temperature in K
+	thicknessLayers (0.002);         // this is one 0.2cm layer copper
+	kappaLayers     (385);         // typical copper thermal conductivity is about this magnitude
+	// see http://www.fao.org/3/y5013e/y5013e08.htm
+	// for the values of thermal insulation conductivity
+	kappaMethod     fluidThermo;
+	h               20;
+	value		$internalField;
+    
+	type		fixedValue;
+	value		uniform 300;
+    }
+    insulatedTubing
+    {
+	type            externalWallHeatFluxTemperature;
+	mode            coefficient;    // other modes are 'power' and 'flux'
+	Ta              uniform 293;            // ambient temperature in K
+	thicknessLayers (0.02);         // this is one 2cm layer insulation
+	kappaLayers     (0.04);         // typical insulation thermal conductivity is about this magnitude
+	// see http://www.fao.org/3/y5013e/y5013e08.htm
+	// for the values of thermal insulation conductivity
+	kappaMethod     fluidThermo;
+	h               20;
+	value		$internalField;
+
+	type		zeroGradient;
+
+    }
+    hotSideTubing
+    {
+        type            externalWallHeatFluxTemperature;
+        mode            power;   
+        Q		80;
+	value		$internalField;
+	kappaMethod	fluidThermo;
+	
+	type		fixedValue;
+	value		uniform 300;
+    }
+
+    inlet
+    {
+        type            fixedValue;
+        value           uniform 500;
+        // turbulent intensity can be estimated:
+        // https://www.simscale.com/docs/simulation-setup/global-settings/k-epsilon/
+        // Intensity = 0.16 * Re ^(-1/8)
+        // Re = Reynold's number based on hydraulic mean diameter 
+    }
+
+	
+/*
+    ceiling
+    {
+        type            lumpedMassWallTemperature;
+        kappaMethod     fluidThermo;
+        kappa           none;
+        mass            1000;
+        Cp              4100;
+        value           uniform 300;
+    }
+*/
+}
+
+
+// ************************************************************************* //
